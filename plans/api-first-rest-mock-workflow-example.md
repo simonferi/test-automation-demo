@@ -93,7 +93,7 @@ uv run python apps/test-scenario-builder/test_scenario_builder/main.py `
   --scenario-prefix smoke
 
 Write-Host "[4/4] Mock Server" -ForegroundColor Cyan
-uv run python apps/cli-mock-runtime/cli_mock_runtime/main.py `
+uv run python apps/mock-server/mock_server/main.py `
   --config $configFile `
   --log-level INFO `
   --log-format json
@@ -108,7 +108,7 @@ Po spustení kroku 3 môžete v inom okne overiť správanie cez `curl` alebo `I
 Invoke-RestMethod -Uri http://127.0.0.1:9101/payments -Method GET
 ```
 
-Očakávaná odpoveď zodpovedá payloadu, ktorý vygenerovala `cli-mock-generator` pre daný endpoint.
+Očakávaná odpoveď zodpovedá payloadu, ktorý vygenerovala `mock-config-builder` pre daný endpoint.
 
 ## Čistenie a ďalšie scenáre
 - Zastavte runtime (`Ctrl+C`).

@@ -12,11 +12,11 @@
 
 | Component | Purpose | Notes |
 |-----------|---------|-------|
-| `cli-contract-intake` | Parsed OpenAPI/WSDL/Proto sources into an intermediate representation and vector index. | Relied on shared libs under `libs/contract_ir` and `workspace/catalog/`. |
-| `cli-mock-generator` | Produced deterministic payload templates and scenario manifests. | Could attach prompts for AI-assisted fixture generation. |
-| `cli-mock-runtime` | Hosted REST/SOAP/gRPC mocks with HEAD/OPTIONS support and latency injection. | Exposed telemetry for every endpoint hit. |
-| `cli-smoke-runtime` | Orchestrated regression/smoke suites, persisted junit + events. | Supported multi-scenario matrices. |
-| `cli-test-generator` | Created pytest features & Postman collections from catalog metadata. | Ensured parity between manual and automated runs. |
+| `contract-parser` | Parsed OpenAPI/WSDL/Proto sources into an intermediate representation and JSON index. | Relied on shared libs under `libs/contract_ir` and `workspace/catalog/`. |
+| `mock-config-builder` | Produced deterministic payload templates and scenario manifests. | Could attach prompts for AI-assisted fixture generation. |
+| `mock-server` | Hosted REST/SOAP/gRPC mocks with HEAD/OPTIONS support and latency injection. | Exposed telemetry for every endpoint hit. |
+| `test-executor` | Orchestrated regression/smoke suites, persisted junit + events. | Supported multi-scenario matrices. |
+| `test-scenario-builder` | Created pytest features & Postman collections from catalog metadata. | Ensured parity between manual and automated runs. |
 
 ## 3. Tooling Stack (Legacy)
 

@@ -226,10 +226,10 @@ script:
 ## 3. Projekty a Zdieľané Knižnice
 | Typ | Názov | Úloha |
 | --- | --- | --- |
-| CLI | `cli-contract-intake` | Validuje OpenAPI/WSDL/Proto, normalizuje ich do IR JSON a FAISS indexu. |
-| CLI | `cli-test-generator` | Používa IR + prompt knižnicu na generovanie scenárov (YAML + payloady). |
-| CLI | `cli-mock-generator` | Kompiluje editovateľné mock konfigurácie a handler kód pre REST/SOAP/gRPC. |
-| CLI | `cli-smoke-runtime` | Jednotný runtime spúšťajúci scenáre a produkujúci výstupy. |
+| CLI | `contract-parser` | Validuje OpenAPI/WSDL/Proto, normalizuje ich do IR JSON indexu. |
+| CLI | `test-scenario-builder` | Používa IR + prompt knižnicu na generovanie scenárov (YAML + payloady). |
+| CLI | `mock-config-builder` | Kompiluje editovateľné mock konfigurácie a handler kód pre REST/SOAP/gRPC. |
+| CLI | `test-executor` | Jednotný runtime spúšťajúci scenáre a produkujúci výstupy. |
 | CLI | `cli-report` | Filtrovanie a agregácia `runs/*/summary.json` podľa metadát. |
 | Runtime | `runtime-mock-rest/soap/grpc` | Samostatné Typer CLIs spúšťajúce mock servery z konfigov. |
 | Lib | `libs/contract_ir` | Pydantic modely IR, diff nástroje, semantic hashing. |
@@ -242,27 +242,27 @@ script:
 
 | Skript (`hatch run …`) | Vnútorný príkaz | Použitie |
 | --- | --- | --- |
-| `intake` | `python apps/cli-contract-intake/cli_contract_intake/main.py` | Normalizácia špecifikácie do IR/FAISS. Odovzdajte `--spec`, `--output-dir`, `--service-name`. |
-| `test_generate` | `python apps/cli-test-generator/cli_test_generator/main.py` | Generovanie scenárov/payloadov z IR (parametre: `--ir`, `--output-dir`, `--scenario-prefix`, `--tag`). |
-| `mock_generate` | `python apps/cli-mock-generator/cli_mock_generator/main.py` | Príprava mock konfigurácií (napr. `--format yaml --port rest=9101`). |
-| `mock_runtime` | `python apps/cli-mock-runtime/cli_mock_runtime/main.py` | Spustenie mock servera podľa vytvoreného YAML. |
-| `smoke` | `python apps/cli-smoke-runtime/cli_smoke_runtime/main.py` | Spustenie smoke bundle (`hatch run smoke -- run --bundle ... --output-dir runs`). |
+| `intake` | `python apps/contract-parser/contract_parser/main.py` | Normalizácia špecifikácie do IR. Odovzdajte `--spec`, `--output-dir`, `--service-name`. |
+| `test_generate` | `python apps/test-scenario-builder/test_scenario_builder/main.py` | Generovanie scenárov/payloadov z IR (parametre: `--ir`, `--output-dir`, `--scenario-prefix`, `--tag`). |
+| `mock_generate` | `python apps/mock-config-builder/mock_config_builder/main.py` | Príprava mock konfigurácií (napr. `--format yaml --port rest=9101`). |
+| `mock_runtime` | `python apps/mock-server/mock_server/main.py` | Spustenie mock servera podľa vytvoreného YAML. |
+| `smoke` | `python apps/test-executor/test_executor/main.py` | Spustenie smoke bundle (`uv run smoke -- run --bundle ... --output-dir runs`). |
 | `lint` | `ruff apps libs` | Rýchly lint všetkých CLI + knižníc. |
 | `type_check` | `mypy apps/…` | Striktná statická analýza. |
 | `tests` | `pytest` | Behy jednotkových a integračných testov. |
 | `format` | `black apps libs` | Formátovanie zdrojového kódu. |
 
 ## 4. Toky Práce
-1. **Intake**: `hatch run intake -- --spec specs/payments.yaml --output-dir workspace/catalog --service-name Payments` uloží IR do `workspace/catalog/payments/v2.json` a aktualizuje index. V distribuovanom režime je ekvivalent `python -m cli_contract_intake.main --spec ...` alebo nainštalovaný `cli-contract-intake` wheel.
-2. **Generovanie scenárov**: `cli-test-generator` načíta IR + prompt, vyberie AI poskytovateľa (`config/ai-providers.yaml`), vytvorí `artifacts/tests/<protocol>/<service>/<version>/` balík.
-3. **Generovanie mokov**: `cli-mock-generator` pripraví `artifacts/mocks/...` s YAML konfiguráciou a handler kódom.
+1. **Intake**: `uv run python apps/contract-parser/contract_parser/main.py --spec specs/payments.yaml --output-dir workspace/catalog --service-name Payments` uloží IR do `workspace/catalog/payments/1.0.0.json` a aktualizuje index. V distribuovanom režime je ekvivalent `python -m contract_parser.main --spec ...` alebo nainštalovaný `contract-parser` wheel.
+2. **Generovanie scenárov**: `test-scenario-builder` načíta IR + prompt, vyberie AI poskytovateľa (`config/ai-providers.yaml`), vytvorí `artifacts/tests/<protocol>/<service>/<version>/` balík.
+3. **Generovanie mokov**: `mock-config-builder` pripraví `artifacts/mocks/...` s YAML konfiguráciou a handler kódom.
 4. **Lokálne mocky**: operátor spustí napr. `hatch run mock_runtime -- --config artifacts/mocks/payments/1-0-0/mock-config.yaml --log-format console` (porty definované v konfigurácii). Runtime od januára 2026 nativne obsluhuje aj `HEAD`/`OPTIONS`, takže generované scenáre môžu pokrývať health-check a CORS handshake bez ručných handlerov.
 5. **Smoke beh**: `hatch run smoke -- run --bundle artifacts/tests/payments/1.0.0 --project PAY --branch release/1.3 --tags smoke,rest` (alebo `python -m cli_smoke_runtime.main run ...` po `pip install`). Runtime načíta scenár, aplikuje CLI metadáta, spustí protokolové adaptéry (REST/httpx, SOAP/zeep, gRPC/grpcio) a uloží výstupy do `runs/<timestamp>/<scenario-id>/`.
 6. **Reportovanie**: `cli-report filter --runs runs --project PAY --since 2026-01-01 --format markdown > reports/payments.md`.
 
 ## 5. Konfigurácia AI a Prompts
 - `config/ai-providers.yaml` definuje aliasy (napr. `openai-prod`, `vertex-payments`, `local-llama`) s `type`, `base_url`, `model_id`, spôsobom autentifikácie (env vars, token file) a limitmi.
-- Prompt knižnica (`prompts/<workflow>/<locale>.yaml`) obsahuje templaty s makrami (`${OPERATION_NAME}`) a metadata (locale, tón). `cli-test-generator prompts ls|edit|new` spravuje verzie.
+- Prompt knižnica (`prompts/<workflow>/<locale>.yaml`) obsahuje templaty s makrami (`${OPERATION_NAME}`) a metadata (locale, tón). `test-scenario-builder prompts ls|edit|new` spravuje verzie.
 - Audit trail (poskytovateľ, model, prompt verzia, parametre) sa zapisuje do `runs/<timestamp>/summary.json` pre reprodukovateľnosť.
 
 ## 6. Konfigurácia Scenárov a Mokov
@@ -291,7 +291,7 @@ Najrýchlejšie overenie je `pwsh ./scripts/payments-smoke-e2e.ps1` (prípadne s
 
 ## 9. Kvalita a Overenie
 - Hatch skripty `lint`, `type_check`, `tests` a `format` zabalia `ruff`, `black`, `mypy --strict`, `pytest`. Vývojár spúšťa `hatch run lint type_check tests` pred commitom (alebo podľa potreby samostatne).
-- Konfiguračné validátory (`cli-test-generator validate`, `cli-mock-generator validate`) kontrolujú manuálne upravené YAML pred spustením.
+- Konfiguračné validátory (`test-scenario-builder validate`, `mock-config-builder validate`) kontrolujú manuálne upravené YAML pred spustením.
 - Porovnanie IR snapshotov pomocou `libs/contract_ir` (semantic hash) zabezpečuje, že regenerácia je deterministická.
 
 ## 10. Ďalšie Kroky

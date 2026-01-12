@@ -349,7 +349,7 @@ MIT
 **Last Updated:** January 12, 2026  
 **Python Version:** 3.12+  
 **Platform:** Cross-platform (Windows, macOS, Linux)
-- `SMOKE_RUNTIME_LOG_LEVEL`  optional verbosity override for `cli-smoke-runtime`.
+- `SMOKE_RUNTIME_LOG_LEVEL`  optional verbosity override for `test-executor`.
 
 These variables work across Windows PowerShell, Bash, CI pipelines, and the orchestration script above.
 
