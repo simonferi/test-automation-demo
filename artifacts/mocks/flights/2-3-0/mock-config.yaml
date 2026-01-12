@@ -1,0 +1,354 @@
+service: Flights
+version: 2.3.0
+protocol: openapi
+generated_at: '2026-01-10T22:05:42.051768Z'
+source_ir: specs\flights.yaml
+metadata:
+  ir_metadata:
+    raw_version: 3.0.3
+    policy: {}
+  protocol_kind: rest
+  ports:
+    rest: 9301
+servers:
+- name: Flights rest mock
+  protocol: rest
+  host: 127.0.0.1
+  port: 9301
+  routes:
+  - operation: GET /flights/search
+    description: Call GET /flights/search
+    matcher:
+      method: GET
+      path: /flights/search
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /flights/search payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /flights/search.py
+  - operation: POST /flights/offers
+    description: Call POST /flights/offers
+    matcher:
+      method: POST
+      path: /flights/offers
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /flights/offers payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_POST /flights/offers.py
+  - operation: POST /reservations
+    description: Call POST /reservations
+    matcher:
+      method: POST
+      path: /reservations
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /reservations payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_POST /reservations.py
+  - operation: GET /reservations/{reservationId}
+    description: Call GET /reservations/{reservationId}
+    matcher:
+      method: GET
+      path: /reservations/{reservationId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /reservations/{reservationId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /reservations/{reservationId}.py
+  - operation: PUT /reservations/{reservationId}
+    description: Call PUT /reservations/{reservationId}
+    matcher:
+      method: PUT
+      path: /reservations/{reservationId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PUT /reservations/{reservationId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_PUT /reservations/{reservationId}.py
+  - operation: PATCH /reservations/{reservationId}
+    description: Call PATCH /reservations/{reservationId}
+    matcher:
+      method: PATCH
+      path: /reservations/{reservationId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /reservations/{reservationId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_PATCH /reservations/{reservationId}.py
+  - operation: DELETE /reservations/{reservationId}
+    description: Call DELETE /reservations/{reservationId}
+    matcher:
+      method: DELETE
+      path: /reservations/{reservationId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: DELETE /reservations/{reservationId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_DELETE /reservations/{reservationId}.py
+  - operation: GET /reservations/{reservationId}/passengers
+    description: Call GET /reservations/{reservationId}/passengers
+    matcher:
+      method: GET
+      path: /reservations/{reservationId}/passengers
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /reservations/{reservationId}/passengers payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /reservations/{reservationId}/passengers.py
+  - operation: POST /reservations/{reservationId}/passengers
+    description: Call POST /reservations/{reservationId}/passengers
+    matcher:
+      method: POST
+      path: /reservations/{reservationId}/passengers
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /reservations/{reservationId}/passengers payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_POST /reservations/{reservationId}/passengers.py
+  - operation: PATCH /reservations/{reservationId}/passengers/{passengerId}
+    description: Call PATCH /reservations/{reservationId}/passengers/{passengerId}
+    matcher:
+      method: PATCH
+      path: /reservations/{reservationId}/passengers/{passengerId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /reservations/{reservationId}/passengers/{passengerId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_PATCH /reservations/{reservationId}/passengers/{passengerId}.py
+  - operation: DELETE /reservations/{reservationId}/passengers/{passengerId}
+    description: Call DELETE /reservations/{reservationId}/passengers/{passengerId}
+    matcher:
+      method: DELETE
+      path: /reservations/{reservationId}/passengers/{passengerId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: DELETE /reservations/{reservationId}/passengers/{passengerId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_DELETE /reservations/{reservationId}/passengers/{passengerId}.py
+  - operation: GET /reservations/{reservationId}/tickets
+    description: Call GET /reservations/{reservationId}/tickets
+    matcher:
+      method: GET
+      path: /reservations/{reservationId}/tickets
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /reservations/{reservationId}/tickets payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /reservations/{reservationId}/tickets.py
+  - operation: POST /reservations/{reservationId}/tickets
+    description: Call POST /reservations/{reservationId}/tickets
+    matcher:
+      method: POST
+      path: /reservations/{reservationId}/tickets
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /reservations/{reservationId}/tickets payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_POST /reservations/{reservationId}/tickets.py
+  - operation: PATCH /checkin/{reservationId}
+    description: Call PATCH /checkin/{reservationId}
+    matcher:
+      method: PATCH
+      path: /checkin/{reservationId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /checkin/{reservationId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_PATCH /checkin/{reservationId}.py
+  - operation: GET /airports
+    description: Call GET /airports
+    matcher:
+      method: GET
+      path: /airports
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /airports payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /airports.py
+  - operation: GET /airlines
+    description: Call GET /airlines
+    matcher:
+      method: GET
+      path: /airlines
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /airlines payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/flights_GET /airlines.py

@@ -1,0 +1,8 @@
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "GET /payments", "method": "GET", "path": "/payments"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "POST /payments", "method": "POST", "path": "/payments"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "GET /payments/{paymentId}", "method": "GET", "path": "/payments/{paymentId}"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "PATCH /payments/{paymentId}", "method": "PATCH", "path": "/payments/{paymentId}"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "POST /payments/{paymentId}/refunds", "method": "POST", "path": "/payments/{paymentId}/refunds"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "GET /customers/{customerId}/payments", "method": "GET", "path": "/customers/{customerId}/payments"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "POST /payouts", "method": "POST", "path": "/payouts"}
+{"service": "Payments", "version": "1.0.0", "protocol": "openapi", "operation": "GET /reports/daily", "method": "GET", "path": "/reports/daily"}

@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "example": "PATCH /reservations/{reservationId}/passengers/{passengerId} payload"
+  }
+}

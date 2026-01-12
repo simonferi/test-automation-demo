@@ -1,0 +1,157 @@
+{
+  "service": "Commerce",
+  "version": "1.1.0",
+  "protocol": "openapi",
+  "source_path": "specs\\commerce.yaml",
+  "generated_at": "2026-01-10T21:57:02.420957Z",
+  "metadata": {
+    "raw_version": "3.0.3",
+    "policy": {}
+  },
+  "operations": [
+    {
+      "name": "GET /orders",
+      "method": "GET",
+      "path": "/orders",
+      "description": "List orders"
+    },
+    {
+      "name": "POST /orders",
+      "method": "POST",
+      "path": "/orders",
+      "description": "Create order"
+    },
+    {
+      "name": "OPTIONS /orders",
+      "method": "OPTIONS",
+      "path": "/orders",
+      "description": "Options for order collection"
+    },
+    {
+      "name": "HEAD /orders",
+      "method": "HEAD",
+      "path": "/orders",
+      "description": "Order list metadata"
+    },
+    {
+      "name": "GET /orders/{orderId}",
+      "method": "GET",
+      "path": "/orders/{orderId}",
+      "description": "Get order"
+    },
+    {
+      "name": "PUT /orders/{orderId}",
+      "method": "PUT",
+      "path": "/orders/{orderId}",
+      "description": "Replace order"
+    },
+    {
+      "name": "PATCH /orders/{orderId}",
+      "method": "PATCH",
+      "path": "/orders/{orderId}",
+      "description": "Patch order"
+    },
+    {
+      "name": "DELETE /orders/{orderId}",
+      "method": "DELETE",
+      "path": "/orders/{orderId}",
+      "description": "Cancel order"
+    },
+    {
+      "name": "GET /orders/{orderId}/items",
+      "method": "GET",
+      "path": "/orders/{orderId}/items",
+      "description": "List order items"
+    },
+    {
+      "name": "POST /orders/{orderId}/items",
+      "method": "POST",
+      "path": "/orders/{orderId}/items",
+      "description": "Append order item"
+    },
+    {
+      "name": "DELETE /orders/{orderId}/items/{itemId}",
+      "method": "DELETE",
+      "path": "/orders/{orderId}/items/{itemId}",
+      "description": "Remove order item"
+    },
+    {
+      "name": "GET /shipments",
+      "method": "GET",
+      "path": "/shipments",
+      "description": "List shipments"
+    },
+    {
+      "name": "POST /shipments",
+      "method": "POST",
+      "path": "/shipments",
+      "description": "Create shipment"
+    },
+    {
+      "name": "GET /shipments/{shipmentId}",
+      "method": "GET",
+      "path": "/shipments/{shipmentId}",
+      "description": "Get shipment"
+    },
+    {
+      "name": "PATCH /shipments/{shipmentId}",
+      "method": "PATCH",
+      "path": "/shipments/{shipmentId}",
+      "description": "Patch shipment status"
+    },
+    {
+      "name": "GET /inventory/locations",
+      "method": "GET",
+      "path": "/inventory/locations",
+      "description": "List inventory locations"
+    },
+    {
+      "name": "GET /inventory/locations/{locationId}/levels",
+      "method": "GET",
+      "path": "/inventory/locations/{locationId}/levels",
+      "description": "List stock levels at location"
+    },
+    {
+      "name": "POST /inventory/locations/{locationId}/levels",
+      "method": "POST",
+      "path": "/inventory/locations/{locationId}/levels",
+      "description": "Bulk adjust levels"
+    },
+    {
+      "name": "PUT /inventory/locations/{locationId}/levels/{sku}",
+      "method": "PUT",
+      "path": "/inventory/locations/{locationId}/levels/{sku}",
+      "description": "Upsert stock level"
+    },
+    {
+      "name": "DELETE /inventory/locations/{locationId}/levels/{sku}",
+      "method": "DELETE",
+      "path": "/inventory/locations/{locationId}/levels/{sku}",
+      "description": "Delete stock level"
+    },
+    {
+      "name": "GET /returns",
+      "method": "GET",
+      "path": "/returns",
+      "description": "List returns"
+    },
+    {
+      "name": "POST /returns",
+      "method": "POST",
+      "path": "/returns",
+      "description": "Create return"
+    },
+    {
+      "name": "HEAD /returns/{returnId}",
+      "method": "HEAD",
+      "path": "/returns/{returnId}",
+      "description": "Inspect return existence"
+    },
+    {
+      "name": "OPTIONS /returns/{returnId}",
+      "method": "OPTIONS",
+      "path": "/returns/{returnId}",
+      "description": "Allowed return operations"
+    }
+  ]
+}

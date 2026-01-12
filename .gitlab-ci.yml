@@ -1,0 +1,98 @@
+# GitLab CI/CD Configuration for Smoke Tests
+
+stages:
+  - test
+  - report
+
+variables:
+  CONSOLE_OUTPUT_FORMAT: "json"
+  PYTHON_VERSION: "3.12"
+
+# Define test jobs for each spec
+.smoke_test_template: &smoke_test
+  stage: test
+  image: ghcr.io/astral-sh/uv:latest
+  before_script:
+    - uv sync
+  script:
+    - |
+      python scripts/run-smoke-pipeline.py \
+        --spec ${SPEC_FILE} \
+        --port ${REST_PORT:-9101} \
+        --output-format json
+  artifacts:
+    when: always
+    paths:
+      - runs/
+    expire_in: 30 days
+    reports:
+      junit: runs/*/junit-report.xml
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+payments-smoke-test:
+  <<: *smoke_test
+  variables:
+    SPEC_FILE: "specs/payments.yaml"
+    REST_PORT: "9101"
+
+commerce-smoke-test:
+  <<: *smoke_test
+  variables:
+    SPEC_FILE: "specs/commerce.yaml"
+    REST_PORT: "9102"
+
+flights-smoke-test:
+  <<: *smoke_test
+  variables:
+    SPEC_FILE: "specs/flights.yaml"
+    REST_PORT: "9103"
+
+# Generate summary report
+test-report:
+  stage: report
+  image: ghcr.io/astral-sh/uv:latest
+  dependencies:
+    - payments-smoke-test
+    - commerce-smoke-test
+    - flights-smoke-test
+  script:
+    - |
+      echo "# Smoke Test Summary" > smoke-summary.md
+      echo "" >> smoke-summary.md
+      
+      for run_dir in runs/*/; do
+        if [ -f "${run_dir}execution-report.json" ]; then
+          service=$(basename "$run_dir" | cut -d'-' -f2)
+          status=$(jq -r '.summary.status' "${run_dir}execution-report.json")
+          total=$(jq -r '.summary.total_scenarios' "${run_dir}execution-report.json")
+          passed=$(jq -r '.summary.passed_scenarios' "${run_dir}execution-report.json")
+          failed=$(jq -r '.summary.failed_scenarios' "${run_dir}execution-report.json")
+          
+          echo "## ${service}" >> smoke-summary.md
+          echo "- **Status:** ${status}" >> smoke-summary.md
+          echo "- **Total:** ${total}" >> smoke-summary.md
+          echo "- **Passed:** ${passed}" >> smoke-summary.md
+          echo "- **Failed:** ${failed}" >> smoke-summary.md
+          echo "" >> smoke-summary.md
+        fi
+      done
+      
+      cat smoke-summary.md
+  artifacts:
+    paths:
+      - smoke-summary.md
+    reports:
+      markdown: smoke-summary.md
+
+# Manual trigger with custom spec
+manual-smoke-test:
+  <<: *smoke_test
+  when: manual
+  variables:
+    SPEC_FILE: "${CUSTOM_SPEC}"
+    REST_PORT: "${CUSTOM_PORT}"
+  allow_failure: true

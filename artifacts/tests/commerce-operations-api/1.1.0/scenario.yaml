@@ -1,0 +1,277 @@
+scenario_id: smoke-commerce-operations-api-1-1-0
+service: Commerce Operations API
+version: 1.1.0
+protocol: openapi
+generated_at: '2026-01-12T12:29:26.734093+00:00'
+metadata:
+  tags:
+  - smoke
+  - generated
+  - commerce
+  custom:
+    test_type: smoke
+steps:
+- name: GET /orders
+  description: Call GET /orders
+  protocol: openapi
+  request:
+    method: GET
+    path: /orders
+    payload: payloads/001_get-orders.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List orders
+- name: POST /orders
+  description: Call POST /orders
+  protocol: openapi
+  request:
+    method: POST
+    path: /orders
+    payload: payloads/002_post-orders.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create order
+- name: OPTIONS /orders
+  description: Call OPTIONS /orders
+  protocol: openapi
+  request:
+    method: OPTIONS
+    path: /orders
+    payload: payloads/003_options-orders.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Options for order collection
+- name: HEAD /orders
+  description: Call HEAD /orders
+  protocol: openapi
+  request:
+    method: HEAD
+    path: /orders
+    payload: payloads/004_head-orders.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Order list metadata
+- name: GET /orders/{orderId}
+  description: Call GET /orders/{orderId}
+  protocol: openapi
+  request:
+    method: GET
+    path: /orders/{orderId}
+    payload: payloads/005_get-orders-orderid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Get order
+- name: PUT /orders/{orderId}
+  description: Call PUT /orders/{orderId}
+  protocol: openapi
+  request:
+    method: PUT
+    path: /orders/{orderId}
+    payload: payloads/006_put-orders-orderid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Replace order
+- name: PATCH /orders/{orderId}
+  description: Call PATCH /orders/{orderId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /orders/{orderId}
+    payload: payloads/007_patch-orders-orderid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Patch order
+- name: DELETE /orders/{orderId}
+  description: Call DELETE /orders/{orderId}
+  protocol: openapi
+  request:
+    method: DELETE
+    path: /orders/{orderId}
+    payload: payloads/008_delete-orders-orderid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Cancel order
+- name: GET /orders/{orderId}/items
+  description: Call GET /orders/{orderId}/items
+  protocol: openapi
+  request:
+    method: GET
+    path: /orders/{orderId}/items
+    payload: payloads/009_get-orders-orderid-items.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List order items
+- name: POST /orders/{orderId}/items
+  description: Call POST /orders/{orderId}/items
+  protocol: openapi
+  request:
+    method: POST
+    path: /orders/{orderId}/items
+    payload: payloads/010_post-orders-orderid-items.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Append order item
+- name: DELETE /orders/{orderId}/items/{itemId}
+  description: Call DELETE /orders/{orderId}/items/{itemId}
+  protocol: openapi
+  request:
+    method: DELETE
+    path: /orders/{orderId}/items/{itemId}
+    payload: payloads/011_delete-orders-orderid-items-itemid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Remove order item
+- name: GET /shipments
+  description: Call GET /shipments
+  protocol: openapi
+  request:
+    method: GET
+    path: /shipments
+    payload: payloads/012_get-shipments.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List shipments
+- name: POST /shipments
+  description: Call POST /shipments
+  protocol: openapi
+  request:
+    method: POST
+    path: /shipments
+    payload: payloads/013_post-shipments.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create shipment
+- name: GET /shipments/{shipmentId}
+  description: Call GET /shipments/{shipmentId}
+  protocol: openapi
+  request:
+    method: GET
+    path: /shipments/{shipmentId}
+    payload: payloads/014_get-shipments-shipmentid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Get shipment
+- name: PATCH /shipments/{shipmentId}
+  description: Call PATCH /shipments/{shipmentId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /shipments/{shipmentId}
+    payload: payloads/015_patch-shipments-shipmentid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Patch shipment status
+- name: GET /inventory/locations
+  description: Call GET /inventory/locations
+  protocol: openapi
+  request:
+    method: GET
+    path: /inventory/locations
+    payload: payloads/016_get-inventory-locations.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List inventory locations
+- name: GET /inventory/locations/{locationId}/levels
+  description: Call GET /inventory/locations/{locationId}/levels
+  protocol: openapi
+  request:
+    method: GET
+    path: /inventory/locations/{locationId}/levels
+    payload: payloads/017_get-inventory-locations-locationid-levels.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List stock levels at location
+- name: POST /inventory/locations/{locationId}/levels
+  description: Call POST /inventory/locations/{locationId}/levels
+  protocol: openapi
+  request:
+    method: POST
+    path: /inventory/locations/{locationId}/levels
+    payload: payloads/018_post-inventory-locations-locationid-levels.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Bulk adjust levels
+- name: PUT /inventory/locations/{locationId}/levels/{sku}
+  description: Call PUT /inventory/locations/{locationId}/levels/{sku}
+  protocol: openapi
+  request:
+    method: PUT
+    path: /inventory/locations/{locationId}/levels/{sku}
+    payload: payloads/019_put-inventory-locations-locationid-levels-sku.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Upsert stock level
+- name: DELETE /inventory/locations/{locationId}/levels/{sku}
+  description: Call DELETE /inventory/locations/{locationId}/levels/{sku}
+  protocol: openapi
+  request:
+    method: DELETE
+    path: /inventory/locations/{locationId}/levels/{sku}
+    payload: payloads/020_delete-inventory-locations-locationid-levels-sku.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Delete stock level
+- name: GET /returns
+  description: Call GET /returns
+  protocol: openapi
+  request:
+    method: GET
+    path: /returns
+    payload: payloads/021_get-returns.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List returns
+- name: POST /returns
+  description: Call POST /returns
+  protocol: openapi
+  request:
+    method: POST
+    path: /returns
+    payload: payloads/022_post-returns.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create return
+- name: HEAD /returns/{returnId}
+  description: Call HEAD /returns/{returnId}
+  protocol: openapi
+  request:
+    method: HEAD
+    path: /returns/{returnId}
+    payload: payloads/023_head-returns-returnid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Inspect return existence
+- name: OPTIONS /returns/{returnId}
+  description: Call OPTIONS /returns/{returnId}
+  protocol: openapi
+  request:
+    method: OPTIONS
+    path: /returns/{returnId}
+    payload: payloads/024_options-returns-returnid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Allowed return operations

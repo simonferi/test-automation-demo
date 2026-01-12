@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "example": "POST /payments/{paymentId}/refunds payload"
+  }
+}

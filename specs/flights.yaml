@@ -1,0 +1,441 @@
+openapi: 3.0.3
+info:
+  title: Flight Booking API
+  version: "2.3.0"
+  description: |
+    Canonical REST interface for searching flights, creating reservations,
+    managing passengers, and tracking ticket issuance.
+servers:
+  - url: https://api.flights.local/v2
+paths:
+  /flights/search:
+    get:
+      summary: Search available flights
+      description: Finds flight legs between origin and destination on given dates.
+      parameters:
+        - $ref: '#/components/parameters/Origin'
+        - $ref: '#/components/parameters/Destination'
+        - $ref: '#/components/parameters/DepartureDate'
+        - $ref: '#/components/parameters/ReturnDate'
+        - $ref: '#/components/parameters/Cabin'
+      responses:
+        '200':
+          description: Matching flight itineraries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Itinerary'
+        '400':
+          description: Invalid search filters supplied.
+  /flights/offers:
+    post:
+      summary: Create priced offer
+      description: Returns a priced offer for selected flight legs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOfferRequest'
+      responses:
+        '201':
+          description: Priced offer generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        '422':
+          description: Offer could not be priced.
+  /reservations:
+    post:
+      summary: Create reservation
+      description: Books a reservation using a priced offer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+      responses:
+        '201':
+          description: Reservation created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '409':
+          description: Offer expired or seats unavailable.
+  /reservations/{reservationId}:
+    parameters:
+      - $ref: '#/components/parameters/ReservationId'
+    get:
+      summary: Get reservation
+      responses:
+        '200':
+          description: Reservation details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '404':
+          description: Reservation not found.
+    put:
+      summary: Replace reservation data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200': { description: Reservation updated }
+        '409': { description: Cannot modify after ticketing }
+    patch:
+      summary: Patch reservation metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReservationRequest'
+      responses:
+        '200': { description: Patch applied }
+        '400': { description: Invalid patch payload }
+    delete:
+      summary: Cancel reservation
+      responses:
+        '204': { description: Reservation canceled }
+        '409': { description: Cancellation window passed }
+  /reservations/{reservationId}/passengers:
+    parameters:
+      - $ref: '#/components/parameters/ReservationId'
+    get:
+      summary: List passengers in reservation
+      responses:
+        '200':
+          description: Passenger roster.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Passenger'
+    post:
+      summary: Add passenger to reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Passenger'
+      responses:
+        '201': { description: Passenger added }
+        '409': { description: Maximum passenger count reached }
+  /reservations/{reservationId}/passengers/{passengerId}:
+    parameters:
+      - $ref: '#/components/parameters/ReservationId'
+      - $ref: '#/components/parameters/PassengerId'
+    patch:
+      summary: Update passenger details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePassengerRequest'
+      responses:
+        '200': { description: Passenger updated }
+    delete:
+      summary: Remove passenger
+      responses:
+        '204': { description: Passenger removed }
+  /reservations/{reservationId}/tickets:
+    parameters:
+      - $ref: '#/components/parameters/ReservationId'
+    get:
+      summary: List issued tickets
+      responses:
+        '200':
+          description: Ticket collection.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+    post:
+      summary: Issue tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueTicketsRequest'
+      responses:
+        '202': { description: Ticketing started }
+  /checkin/{reservationId}:
+    parameters:
+      - $ref: '#/components/parameters/ReservationId'
+    patch:
+      summary: Complete online check-in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckInRequest'
+      responses:
+        '200': { description: Boarding passes generated }
+  /airports:
+    get:
+      summary: List airports
+      responses:
+        '200':
+          description: Available airports.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Airport'
+  /airlines:
+    get:
+      summary: List airlines
+      responses:
+        '200':
+          description: Airline directory.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Airline'
+components:
+  parameters:
+    ReservationId:
+      name: reservationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PassengerId:
+      name: passengerId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Origin:
+      name: origin
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 3
+    Destination:
+      name: destination
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 3
+    DepartureDate:
+      name: departureDate
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    ReturnDate:
+      name: returnDate
+      in: query
+      schema:
+        type: string
+        format: date
+    Cabin:
+      name: cabin
+      in: query
+      schema:
+        type: string
+        enum: [economy, premium, business, first]
+  schemas:
+    Money:
+      type: object
+      required: [currency, amount]
+      properties:
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        amount:
+          type: number
+          format: decimal
+    FlightSegment:
+      type: object
+      required: [flightNumber, departureAirport, arrivalAirport, departureTime, arrivalTime]
+      properties:
+        flightNumber:
+          type: string
+        departureAirport:
+          type: string
+          minLength: 3
+          maxLength: 3
+        arrivalAirport:
+          type: string
+          minLength: 3
+          maxLength: 3
+        departureTime:
+          type: string
+          format: date-time
+        arrivalTime:
+          type: string
+          format: date-time
+        aircraft:
+          type: string
+    Itinerary:
+      type: object
+      required: [segments]
+      properties:
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlightSegment'
+        fareBasis:
+          type: string
+    Offer:
+      type: object
+      required: [id, price, itinerary]
+      properties:
+        id:
+          type: string
+          format: uuid
+        itinerary:
+          $ref: '#/components/schemas/Itinerary'
+        price:
+          $ref: '#/components/schemas/Money'
+        expiresAt:
+          type: string
+          format: date-time
+    CreateOfferRequest:
+      type: object
+      required: [segments, passengers]
+      properties:
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlightSegment'
+        passengers:
+          type: integer
+          minimum: 1
+    Passenger:
+      type: object
+      required: [id, firstName, lastName]
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        loyaltyProgram:
+          type: string
+    UpdatePassengerRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        seatPreference:
+          type: string
+    Reservation:
+      type: object
+      required: [id, status, passengers, offerId]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, ticketed, canceled]
+        offerId:
+          type: string
+          format: uuid
+        passengers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Passenger'
+        createdAt:
+          type: string
+          format: date-time
+    CreateReservationRequest:
+      type: object
+      required: [offerId, travelers]
+      properties:
+        offerId:
+          type: string
+          format: uuid
+        travelers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Passenger'
+    UpdateReservationRequest:
+      type: object
+      properties:
+        status:
+          type: string
+        contactEmail:
+          type: string
+          format: email
+    Ticket:
+      type: object
+      required: [ticketNumber, passengerId]
+      properties:
+        ticketNumber:
+          type: string
+        passengerId:
+          type: string
+          format: uuid
+        status:
+          type: string
+    IssueTicketsRequest:
+      type: object
+      required: [paymentMethod]
+      properties:
+        paymentMethod:
+          type: string
+        deliverElectronically:
+          type: boolean
+    CheckInRequest:
+      type: object
+      required: [passengers]
+      properties:
+        passengers:
+          type: array
+          items:
+            type: string
+            format: uuid
+    Airport:
+      type: object
+      required: [code, city, country]
+      properties:
+        code:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+    Airline:
+      type: object
+      required: [code, name]
+      properties:
+        code:
+          type: string
+        name:
+          type: string

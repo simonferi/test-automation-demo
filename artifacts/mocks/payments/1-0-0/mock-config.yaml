@@ -1,0 +1,186 @@
+service: Payments
+version: 1.0.0
+protocol: openapi
+generated_at: '2026-01-12T12:20:02.539553Z'
+source_ir: specs\payments.yaml
+metadata:
+  ir_metadata:
+    raw_version: 3.0.3
+    policy: {}
+  protocol_kind: rest
+  ports:
+    rest: 9101
+servers:
+- name: Payments rest mock
+  protocol: rest
+  host: 127.0.0.1
+  port: 9101
+  routes:
+  - operation: GET /payments
+    description: Call GET /payments
+    matcher:
+      method: GET
+      path: /payments
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /payments payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_GET /payments.py
+  - operation: POST /payments
+    description: Call POST /payments
+    matcher:
+      method: POST
+      path: /payments
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /payments payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_POST /payments.py
+  - operation: GET /payments/{paymentId}
+    description: Call GET /payments/{paymentId}
+    matcher:
+      method: GET
+      path: /payments/{paymentId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /payments/{paymentId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_GET /payments/{paymentId}.py
+  - operation: PATCH /payments/{paymentId}
+    description: Call PATCH /payments/{paymentId}
+    matcher:
+      method: PATCH
+      path: /payments/{paymentId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /payments/{paymentId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_PATCH /payments/{paymentId}.py
+  - operation: POST /payments/{paymentId}/refunds
+    description: Call POST /payments/{paymentId}/refunds
+    matcher:
+      method: POST
+      path: /payments/{paymentId}/refunds
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /payments/{paymentId}/refunds payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_POST /payments/{paymentId}/refunds.py
+  - operation: GET /customers/{customerId}/payments
+    description: Call GET /customers/{customerId}/payments
+    matcher:
+      method: GET
+      path: /customers/{customerId}/payments
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /customers/{customerId}/payments payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_GET /customers/{customerId}/payments.py
+  - operation: POST /payouts
+    description: Call POST /payouts
+    matcher:
+      method: POST
+      path: /payouts
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /payouts payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_POST /payouts.py
+  - operation: GET /reports/daily
+    description: Call GET /reports/daily
+    matcher:
+      method: GET
+      path: /reports/daily
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /reports/daily payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/payments_GET /reports/daily.py

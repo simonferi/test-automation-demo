@@ -1,0 +1,318 @@
+{
+  "format": "json",
+  "version": "1.0",
+  "total_operations": 16,
+  "contracts": [
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /flights/search",
+      "method": "GET",
+      "path": "/flights/search",
+      "description": "Search available flights",
+      "keywords": [
+        "/flights/search",
+        "api",
+        "available",
+        "booking",
+        "flight",
+        "flights",
+        "get",
+        "search"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "POST /flights/offers",
+      "method": "POST",
+      "path": "/flights/offers",
+      "description": "Create priced offer",
+      "keywords": [
+        "/flights/offers",
+        "api",
+        "booking",
+        "create",
+        "flight",
+        "flights",
+        "offer",
+        "offers",
+        "post",
+        "priced"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "POST /reservations",
+      "method": "POST",
+      "path": "/reservations",
+      "description": "Create reservation",
+      "keywords": [
+        "/reservations",
+        "api",
+        "booking",
+        "create",
+        "flight",
+        "post",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /reservations/{reservationId}",
+      "method": "GET",
+      "path": "/reservations/{reservationId}",
+      "description": "Get reservation",
+      "keywords": [
+        "/reservations/{reservationid}",
+        "api",
+        "booking",
+        "flight",
+        "get",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "PUT /reservations/{reservationId}",
+      "method": "PUT",
+      "path": "/reservations/{reservationId}",
+      "description": "Replace reservation data",
+      "keywords": [
+        "/reservations/{reservationid}",
+        "api",
+        "booking",
+        "data",
+        "flight",
+        "put",
+        "replace",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "PATCH /reservations/{reservationId}",
+      "method": "PATCH",
+      "path": "/reservations/{reservationId}",
+      "description": "Patch reservation metadata",
+      "keywords": [
+        "/reservations/{reservationid}",
+        "api",
+        "booking",
+        "flight",
+        "metadata",
+        "patch",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "DELETE /reservations/{reservationId}",
+      "method": "DELETE",
+      "path": "/reservations/{reservationId}",
+      "description": "Cancel reservation",
+      "keywords": [
+        "/reservations/{reservationid}",
+        "api",
+        "booking",
+        "cancel",
+        "delete",
+        "flight",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /reservations/{reservationId}/passengers",
+      "method": "GET",
+      "path": "/reservations/{reservationId}/passengers",
+      "description": "List passengers in reservation",
+      "keywords": [
+        "/reservations/{reservationid}/passengers",
+        "api",
+        "booking",
+        "flight",
+        "get",
+        "list",
+        "passengers",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "POST /reservations/{reservationId}/passengers",
+      "method": "POST",
+      "path": "/reservations/{reservationId}/passengers",
+      "description": "Add passenger to reservation",
+      "keywords": [
+        "/reservations/{reservationid}/passengers",
+        "api",
+        "booking",
+        "flight",
+        "passenger",
+        "passengers",
+        "post",
+        "reservation",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "PATCH /reservations/{reservationId}/passengers/{passengerId}",
+      "method": "PATCH",
+      "path": "/reservations/{reservationId}/passengers/{passengerId}",
+      "description": "Update passenger details",
+      "keywords": [
+        "/reservations/{reservationid}/passengers/{passengerid}",
+        "api",
+        "booking",
+        "details",
+        "flight",
+        "passenger",
+        "passengers",
+        "patch",
+        "reservations",
+        "update"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "DELETE /reservations/{reservationId}/passengers/{passengerId}",
+      "method": "DELETE",
+      "path": "/reservations/{reservationId}/passengers/{passengerId}",
+      "description": "Remove passenger",
+      "keywords": [
+        "/reservations/{reservationid}/passengers/{passengerid}",
+        "api",
+        "booking",
+        "delete",
+        "flight",
+        "passenger",
+        "passengers",
+        "remove",
+        "reservations"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /reservations/{reservationId}/tickets",
+      "method": "GET",
+      "path": "/reservations/{reservationId}/tickets",
+      "description": "List issued tickets",
+      "keywords": [
+        "/reservations/{reservationid}/tickets",
+        "api",
+        "booking",
+        "flight",
+        "get",
+        "issued",
+        "list",
+        "reservations",
+        "tickets"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "POST /reservations/{reservationId}/tickets",
+      "method": "POST",
+      "path": "/reservations/{reservationId}/tickets",
+      "description": "Issue tickets",
+      "keywords": [
+        "/reservations/{reservationid}/tickets",
+        "api",
+        "booking",
+        "flight",
+        "issue",
+        "post",
+        "reservations",
+        "tickets"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "PATCH /checkin/{reservationId}",
+      "method": "PATCH",
+      "path": "/checkin/{reservationId}",
+      "description": "Complete online check-in",
+      "keywords": [
+        "/checkin/{reservationid}",
+        "api",
+        "booking",
+        "check-in",
+        "checkin",
+        "complete",
+        "flight",
+        "online",
+        "patch"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /airports",
+      "method": "GET",
+      "path": "/airports",
+      "description": "List airports",
+      "keywords": [
+        "/airports",
+        "airports",
+        "api",
+        "booking",
+        "flight",
+        "get",
+        "list"
+      ]
+    },
+    {
+      "service": "Flight Booking API",
+      "version": "2.3.0",
+      "protocol": "openapi",
+      "operation": "GET /airlines",
+      "method": "GET",
+      "path": "/airlines",
+      "description": "List airlines",
+      "keywords": [
+        "/airlines",
+        "airlines",
+        "api",
+        "booking",
+        "flight",
+        "get",
+        "list"
+      ]
+    }
+  ]
+}

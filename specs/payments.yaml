@@ -1,0 +1,428 @@
+openapi: 3.0.3
+info:
+  title: Payments API
+  version: "1.0.0"
+  description: |
+    Example OpenAPI schema covering payments, refunds, and payout endpoints
+    used for mock/testing workflows.
+servers:
+  - url: https://api.example-payments.local/v1
+paths:
+  /payments:
+    get:
+      summary: List payments
+      description: Returns a paginated list of payments filtered by status or customer.
+      parameters:
+        - name: status
+          in: query
+          description: Optional payment status filter.
+          required: false
+          schema:
+            type: string
+            enum: [pending, completed, failed, refunded]
+        - name: customerId
+          in: query
+          description: Filter payments created for a specific customer UUID.
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        '200':
+          description: Page of payment resources.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payment'
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  total:
+                    type: integer
+        '400':
+          description: Invalid filters supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create payment
+      description: Initiates a payment against a customer wallet.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentRequest'
+      responses:
+        '201':
+          description: Payment created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '422':
+          description: Validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /payments/{paymentId}:
+    parameters:
+      - $ref: '#/components/parameters/PaymentIdPath'
+    get:
+      summary: Get payment details
+      responses:
+        '200':
+          description: Payment detail payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '404':
+          description: Payment not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Update payment metadata
+      description: Partially updates metadata fields for an existing payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePaymentRequest'
+      responses:
+        '200':
+          description: Updated payment details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          description: Malformed patch payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /payments/{paymentId}/refunds:
+    parameters:
+      - $ref: '#/components/parameters/PaymentIdPath'
+    post:
+      summary: Create refund
+      description: Issues a refund against the specified payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRefundRequest'
+      responses:
+        '202':
+          description: Refund accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '409':
+          description: Refund cannot be created in current state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /customers/{customerId}/payments:
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: List payments for customer
+      responses:
+        '200':
+          description: Payments tied to a specific customer.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+  /payouts:
+    post:
+      summary: Schedule payout
+      description: Creates a payout batch transferring funds to merchant bank account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePayoutRequest'
+      responses:
+        '201':
+          description: Payout scheduled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payout'
+        '400':
+          description: Invalid payout payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /reports/daily:
+    get:
+      summary: Retrieve daily settlement report
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: currency
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 3
+            example: USD
+      responses:
+        '200':
+          description: Daily report ready for download.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReport'
+        '404':
+          description: Report not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  parameters:
+    PaymentIdPath:
+      name: paymentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Payment:
+      type: object
+      required:
+        - id
+        - status
+        - amount
+        - currency
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, completed, failed, refunded]
+        amount:
+          type: number
+          format: decimal
+          minimum: 0
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        customerId:
+          type: string
+          format: uuid
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreatePaymentRequest:
+      type: object
+      required: [customerId, amount, currency, description]
+      properties:
+        customerId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        description:
+          type: string
+          maxLength: 256
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    UpdatePaymentRequest:
+      type: object
+      properties:
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        status:
+          type: string
+          enum: [pending, completed, failed, refunded]
+      additionalProperties: false
+    CreateRefundRequest:
+      type: object
+      required: [amount, reason]
+      properties:
+        amount:
+          type: number
+          format: decimal
+        reason:
+          type: string
+          enum: [duplicate, requested_by_customer, fraud, other]
+        reference:
+          type: string
+          maxLength: 64
+    Refund:
+      type: object
+      required: [id, status, amount, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, processing, succeeded, failed]
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        createdAt:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    CreatePayoutRequest:
+      type: object
+      required: [amount, currency, bankAccount]
+      properties:
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        bankAccount:
+          type: object
+          required: [iban, ownerName]
+          properties:
+            iban:
+              type: string
+              pattern: "^[A-Z0-9]{15,34}$"
+            ownerName:
+              type: string
+              maxLength: 120
+        scheduledFor:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    Payout:
+      type: object
+      required: [id, status, amount, currency, scheduledFor]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [scheduled, processing, sent, failed]
+        amount:
+          type: number
+          format: decimal
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        scheduledFor:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    DailyReport:
+      type: object
+      required: [date, currency, totals]
+      properties:
+        date:
+          type: string
+          format: date
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        totals:
+          type: object
+          properties:
+            processed:
+              type: integer
+            refunded:
+              type: integer
+            failed:
+              type: integer
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string

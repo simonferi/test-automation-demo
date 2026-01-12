@@ -1,0 +1,522 @@
+service: Commerce Operations API
+version: 1.1.0
+protocol: openapi
+generated_at: '2026-01-12T12:29:25.094016Z'
+source_ir: specs\commerce.yaml
+metadata:
+  ir_metadata:
+    raw_version: 3.0.3
+    policy: {}
+  protocol_kind: rest
+  ports:
+    rest: 9102
+servers:
+- name: Commerce Operations API rest mock
+  protocol: rest
+  host: 127.0.0.1
+  port: 9102
+  routes:
+  - operation: GET /orders
+    description: Call GET /orders
+    matcher:
+      method: GET
+      path: /orders
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /orders payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /orders.py
+  - operation: POST /orders
+    description: Call POST /orders
+    matcher:
+      method: POST
+      path: /orders
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /orders payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_POST /orders.py
+  - operation: OPTIONS /orders
+    description: Call OPTIONS /orders
+    matcher:
+      method: OPTIONS
+      path: /orders
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: OPTIONS /orders payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_OPTIONS /orders.py
+  - operation: HEAD /orders
+    description: Call HEAD /orders
+    matcher:
+      method: HEAD
+      path: /orders
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: HEAD /orders payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_HEAD /orders.py
+  - operation: GET /orders/{orderId}
+    description: Call GET /orders/{orderId}
+    matcher:
+      method: GET
+      path: /orders/{orderId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /orders/{orderId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /orders/{orderId}.py
+  - operation: PUT /orders/{orderId}
+    description: Call PUT /orders/{orderId}
+    matcher:
+      method: PUT
+      path: /orders/{orderId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PUT /orders/{orderId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_PUT /orders/{orderId}.py
+  - operation: PATCH /orders/{orderId}
+    description: Call PATCH /orders/{orderId}
+    matcher:
+      method: PATCH
+      path: /orders/{orderId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /orders/{orderId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_PATCH /orders/{orderId}.py
+  - operation: DELETE /orders/{orderId}
+    description: Call DELETE /orders/{orderId}
+    matcher:
+      method: DELETE
+      path: /orders/{orderId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: DELETE /orders/{orderId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_DELETE /orders/{orderId}.py
+  - operation: GET /orders/{orderId}/items
+    description: Call GET /orders/{orderId}/items
+    matcher:
+      method: GET
+      path: /orders/{orderId}/items
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /orders/{orderId}/items payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /orders/{orderId}/items.py
+  - operation: POST /orders/{orderId}/items
+    description: Call POST /orders/{orderId}/items
+    matcher:
+      method: POST
+      path: /orders/{orderId}/items
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /orders/{orderId}/items payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_POST /orders/{orderId}/items.py
+  - operation: DELETE /orders/{orderId}/items/{itemId}
+    description: Call DELETE /orders/{orderId}/items/{itemId}
+    matcher:
+      method: DELETE
+      path: /orders/{orderId}/items/{itemId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: DELETE /orders/{orderId}/items/{itemId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_DELETE /orders/{orderId}/items/{itemId}.py
+  - operation: GET /shipments
+    description: Call GET /shipments
+    matcher:
+      method: GET
+      path: /shipments
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /shipments payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /shipments.py
+  - operation: POST /shipments
+    description: Call POST /shipments
+    matcher:
+      method: POST
+      path: /shipments
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /shipments payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_POST /shipments.py
+  - operation: GET /shipments/{shipmentId}
+    description: Call GET /shipments/{shipmentId}
+    matcher:
+      method: GET
+      path: /shipments/{shipmentId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /shipments/{shipmentId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /shipments/{shipmentId}.py
+  - operation: PATCH /shipments/{shipmentId}
+    description: Call PATCH /shipments/{shipmentId}
+    matcher:
+      method: PATCH
+      path: /shipments/{shipmentId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PATCH /shipments/{shipmentId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_PATCH /shipments/{shipmentId}.py
+  - operation: GET /inventory/locations
+    description: Call GET /inventory/locations
+    matcher:
+      method: GET
+      path: /inventory/locations
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /inventory/locations payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /inventory/locations.py
+  - operation: GET /inventory/locations/{locationId}/levels
+    description: Call GET /inventory/locations/{locationId}/levels
+    matcher:
+      method: GET
+      path: /inventory/locations/{locationId}/levels
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /inventory/locations/{locationId}/levels payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /inventory/locations/{locationId}/levels.py
+  - operation: POST /inventory/locations/{locationId}/levels
+    description: Call POST /inventory/locations/{locationId}/levels
+    matcher:
+      method: POST
+      path: /inventory/locations/{locationId}/levels
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /inventory/locations/{locationId}/levels payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_POST /inventory/locations/{locationId}/levels.py
+  - operation: PUT /inventory/locations/{locationId}/levels/{sku}
+    description: Call PUT /inventory/locations/{locationId}/levels/{sku}
+    matcher:
+      method: PUT
+      path: /inventory/locations/{locationId}/levels/{sku}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: PUT /inventory/locations/{locationId}/levels/{sku} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_PUT /inventory/locations/{locationId}/levels/{sku}.py
+  - operation: DELETE /inventory/locations/{locationId}/levels/{sku}
+    description: Call DELETE /inventory/locations/{locationId}/levels/{sku}
+    matcher:
+      method: DELETE
+      path: /inventory/locations/{locationId}/levels/{sku}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: DELETE /inventory/locations/{locationId}/levels/{sku} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_DELETE /inventory/locations/{locationId}/levels/{sku}.py
+  - operation: GET /returns
+    description: Call GET /returns
+    matcher:
+      method: GET
+      path: /returns
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: GET /returns payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_GET /returns.py
+  - operation: POST /returns
+    description: Call POST /returns
+    matcher:
+      method: POST
+      path: /returns
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: POST /returns payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_POST /returns.py
+  - operation: HEAD /returns/{returnId}
+    description: Call HEAD /returns/{returnId}
+    matcher:
+      method: HEAD
+      path: /returns/{returnId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: HEAD /returns/{returnId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_HEAD /returns/{returnId}.py
+  - operation: OPTIONS /returns/{returnId}
+    description: Call OPTIONS /returns/{returnId}
+    matcher:
+      method: OPTIONS
+      path: /returns/{returnId}
+      soap_action: null
+      rpc_method: null
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        headers:
+          Content-Type: application/json
+        body:
+          example: OPTIONS /returns/{returnId} payload
+      latency_ms: 50
+    assertions:
+    - status == 200
+    - response_time_ms < 2000
+    driver_stub: drivers/rest/commerce operations api_OPTIONS /returns/{returnId}.py

@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "example": "GET /reservations/{reservationId}/tickets payload"
+  }
+}

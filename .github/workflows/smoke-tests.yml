@@ -1,0 +1,105 @@
+name: Smoke Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: 'OpenAPI spec file to test'
+        required: true
+        default: 'specs/payments.yaml'
+      port:
+        description: 'Mock server port'
+        required: false
+        default: '9101'
+
+jobs:
+  smoke-tests:
+    name: Run Smoke Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        spec:
+          - specs/payments.yaml
+          - specs/commerce.yaml
+          - specs/flights.yaml
+      fail-fast: false
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          uv sync
+      
+      - name: Run smoke test pipeline
+        env:
+          CONSOLE_OUTPUT_FORMAT: json
+        run: |
+          python scripts/run-smoke-pipeline.py \
+            --spec ${{ matrix.spec }} \
+            --port ${{ github.event.inputs.port || '9101' }} \
+            --output-format json
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-results-${{ matrix.spec }}
+          path: runs/
+          retention-days: 30
+      
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const runsDir = 'runs';
+            const dirs = fs.readdirSync(runsDir).sort().reverse();
+            const latestRun = dirs[0];
+            
+            if (latestRun) {
+              const reportPath = path.join(runsDir, latestRun, 'execution-report.json');
+              if (fs.existsSync(reportPath)) {
+                const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+                
+                const comment = `## Smoke Test Results 🧪
+                
+                **Spec:** \`${{ matrix.spec }}\`
+                **Status:** ${report.summary.status === 'passed' ? '✅ PASSED' : '❌ FAILED'}
+                **Duration:** ${report.summary.duration}s
+                
+                | Metric | Value |
+                |--------|-------|
+                | Total Scenarios | ${report.summary.total_scenarios} |
+                | Passed | ${report.summary.passed_scenarios} |
+                | Failed | ${report.summary.failed_scenarios} |
+                | Skipped | ${report.summary.skipped_scenarios} |
+                `;
+                
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: comment
+                });
+              }
+            }

@@ -1,0 +1,61 @@
+{
+  "service": "Payments API",
+  "version": "1.0.0",
+  "protocol": "openapi",
+  "source_path": "specs\\payments.yaml",
+  "generated_at": "2026-01-12T12:29:00.843415Z",
+  "metadata": {
+    "raw_version": "3.0.3",
+    "policy": {}
+  },
+  "operations": [
+    {
+      "name": "GET /payments",
+      "method": "GET",
+      "path": "/payments",
+      "description": "List payments"
+    },
+    {
+      "name": "POST /payments",
+      "method": "POST",
+      "path": "/payments",
+      "description": "Create payment"
+    },
+    {
+      "name": "GET /payments/{paymentId}",
+      "method": "GET",
+      "path": "/payments/{paymentId}",
+      "description": "Get payment details"
+    },
+    {
+      "name": "PATCH /payments/{paymentId}",
+      "method": "PATCH",
+      "path": "/payments/{paymentId}",
+      "description": "Update payment metadata"
+    },
+    {
+      "name": "POST /payments/{paymentId}/refunds",
+      "method": "POST",
+      "path": "/payments/{paymentId}/refunds",
+      "description": "Create refund"
+    },
+    {
+      "name": "GET /customers/{customerId}/payments",
+      "method": "GET",
+      "path": "/customers/{customerId}/payments",
+      "description": "List payments for customer"
+    },
+    {
+      "name": "POST /payouts",
+      "method": "POST",
+      "path": "/payouts",
+      "description": "Schedule payout"
+    },
+    {
+      "name": "GET /reports/daily",
+      "method": "GET",
+      "path": "/reports/daily",
+      "description": "Retrieve daily settlement report"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+scenario_id: smoke-payments-1-0-0
+service: Payments
+version: 1.0.0
+protocol: openapi
+generated_at: '2026-01-12T12:20:04.418434+00:00'
+metadata:
+  tags:
+  - smoke
+  - generated
+  - payments
+  custom:
+    test_type: smoke
+steps:
+- name: GET /payments
+  description: Call GET /payments
+  protocol: openapi
+  request:
+    method: GET
+    path: /payments
+    payload: payloads/001_get-payments.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List payments
+- name: POST /payments
+  description: Call POST /payments
+  protocol: openapi
+  request:
+    method: POST
+    path: /payments
+    payload: payloads/002_post-payments.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create payment
+- name: GET /payments/{paymentId}
+  description: Call GET /payments/{paymentId}
+  protocol: openapi
+  request:
+    method: GET
+    path: /payments/{paymentId}
+    payload: payloads/003_get-payments-paymentid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Get payment details
+- name: PATCH /payments/{paymentId}
+  description: Call PATCH /payments/{paymentId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /payments/{paymentId}
+    payload: payloads/004_patch-payments-paymentid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Update payment metadata
+- name: POST /payments/{paymentId}/refunds
+  description: Call POST /payments/{paymentId}/refunds
+  protocol: openapi
+  request:
+    method: POST
+    path: /payments/{paymentId}/refunds
+    payload: payloads/005_post-payments-paymentid-refunds.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create refund
+- name: GET /customers/{customerId}/payments
+  description: Call GET /customers/{customerId}/payments
+  protocol: openapi
+  request:
+    method: GET
+    path: /customers/{customerId}/payments
+    payload: payloads/006_get-customers-customerid-payments.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List payments for customer
+- name: POST /payouts
+  description: Call POST /payouts
+  protocol: openapi
+  request:
+    method: POST
+    path: /payouts
+    payload: payloads/007_post-payouts.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Schedule payout
+- name: GET /reports/daily
+  description: Call GET /reports/daily
+  protocol: openapi
+  request:
+    method: GET
+    path: /reports/daily
+    payload: payloads/008_get-reports-daily.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Retrieve daily settlement report

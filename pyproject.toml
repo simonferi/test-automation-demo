@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "api-smoke-platform"
+version = "0.1.0"
+description = "Contract-based smoke test and mock generation platform"
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.15.0",
+    "pydantic>=2.10.0",
+    "pyyaml>=6.0.2",
+    "structlog>=24.4.0",
+    "rich>=13.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9.0",
+    "mypy>=1.14.0",
+    "pytest>=8.4.0",
+]
+
+[project.scripts]
+contract-parser = "contract_parser.main:run"
+test-scenario-builder = "test_scenario_builder.main:run"
+test-executor = "test_executor.main:run_app"
+mock-config-builder = "mock_config_builder.main:run"
+mock-server = "mock_server.main:run"
+
+[tool.setuptools.packages.find]
+where = ["apps"]
+include = [
+    "contract_parser*",
+    "test_scenario_builder*",
+    "test_executor*",
+    "mock_config_builder*",
+    "mock_server*",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.0",
+    "mypy>=1.14.0",
+    "pytest>=8.4.0",
+]
+
+[tool.hatch]
+
+[tool.hatch.envs.default]
+extra-dependencies = [
+    "ruff>=0.9.0",
+    "mypy>=1.14.0",
+    "pytest>=8.4.0",
+]
+
+[tool.hatch.envs.default.scripts]
+parse = "python apps/contract-parser/contract_parser/main.py {args}"
+build_mock = "python apps/mock-config-builder/mock_config_builder/main.py {args}"
+serve_mock = "python apps/mock-server/mock_server/main.py {args}"
+execute = "python apps/test-executor/test_executor/main.py {args}"
+build_scenario = "python apps/test-scenario-builder/test_scenario_builder/main.py {args}"
+lint = "ruff check apps libs"
+format = "ruff format apps libs"
+type_check = "mypy apps/contract-parser apps/test-scenario-builder apps/mock-config-builder apps/mock-server apps/test-executor"
+tests = "pytest"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["apps", "libs"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+

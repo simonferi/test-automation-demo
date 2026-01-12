@@ -1,0 +1,190 @@
+scenario_id: flights-flights-2-3-0
+service: Flights
+version: 2.3.0
+protocol: openapi
+generated_at: '2026-01-10T22:05:43.313445+00:00'
+metadata:
+  tags:
+  - smoke
+  - generated
+  - flights
+  - booking
+  custom:
+    test_type: smoke
+steps:
+- name: GET /flights/search
+  description: Call GET /flights/search
+  protocol: openapi
+  request:
+    method: GET
+    path: /flights/search
+    payload: payloads/001_get-flights-search.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Search available flights
+- name: POST /flights/offers
+  description: Call POST /flights/offers
+  protocol: openapi
+  request:
+    method: POST
+    path: /flights/offers
+    payload: payloads/002_post-flights-offers.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create priced offer
+- name: POST /reservations
+  description: Call POST /reservations
+  protocol: openapi
+  request:
+    method: POST
+    path: /reservations
+    payload: payloads/003_post-reservations.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Create reservation
+- name: GET /reservations/{reservationId}
+  description: Call GET /reservations/{reservationId}
+  protocol: openapi
+  request:
+    method: GET
+    path: /reservations/{reservationId}
+    payload: payloads/004_get-reservations-reservationid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Get reservation
+- name: PUT /reservations/{reservationId}
+  description: Call PUT /reservations/{reservationId}
+  protocol: openapi
+  request:
+    method: PUT
+    path: /reservations/{reservationId}
+    payload: payloads/005_put-reservations-reservationid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Replace reservation data
+- name: PATCH /reservations/{reservationId}
+  description: Call PATCH /reservations/{reservationId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /reservations/{reservationId}
+    payload: payloads/006_patch-reservations-reservationid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Patch reservation metadata
+- name: DELETE /reservations/{reservationId}
+  description: Call DELETE /reservations/{reservationId}
+  protocol: openapi
+  request:
+    method: DELETE
+    path: /reservations/{reservationId}
+    payload: payloads/007_delete-reservations-reservationid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Cancel reservation
+- name: GET /reservations/{reservationId}/passengers
+  description: Call GET /reservations/{reservationId}/passengers
+  protocol: openapi
+  request:
+    method: GET
+    path: /reservations/{reservationId}/passengers
+    payload: payloads/008_get-reservations-reservationid-passengers.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List passengers in reservation
+- name: POST /reservations/{reservationId}/passengers
+  description: Call POST /reservations/{reservationId}/passengers
+  protocol: openapi
+  request:
+    method: POST
+    path: /reservations/{reservationId}/passengers
+    payload: payloads/009_post-reservations-reservationid-passengers.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Add passenger to reservation
+- name: PATCH /reservations/{reservationId}/passengers/{passengerId}
+  description: Call PATCH /reservations/{reservationId}/passengers/{passengerId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /reservations/{reservationId}/passengers/{passengerId}
+    payload: payloads/010_patch-reservations-reservationid-passengers-passengerid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Update passenger details
+- name: DELETE /reservations/{reservationId}/passengers/{passengerId}
+  description: Call DELETE /reservations/{reservationId}/passengers/{passengerId}
+  protocol: openapi
+  request:
+    method: DELETE
+    path: /reservations/{reservationId}/passengers/{passengerId}
+    payload: payloads/011_delete-reservations-reservationid-passengers-passengerid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Remove passenger
+- name: GET /reservations/{reservationId}/tickets
+  description: Call GET /reservations/{reservationId}/tickets
+  protocol: openapi
+  request:
+    method: GET
+    path: /reservations/{reservationId}/tickets
+    payload: payloads/012_get-reservations-reservationid-tickets.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List issued tickets
+- name: POST /reservations/{reservationId}/tickets
+  description: Call POST /reservations/{reservationId}/tickets
+  protocol: openapi
+  request:
+    method: POST
+    path: /reservations/{reservationId}/tickets
+    payload: payloads/013_post-reservations-reservationid-tickets.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Issue tickets
+- name: PATCH /checkin/{reservationId}
+  description: Call PATCH /checkin/{reservationId}
+  protocol: openapi
+  request:
+    method: PATCH
+    path: /checkin/{reservationId}
+    payload: payloads/014_patch-checkin-reservationid.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: Complete online check-in
+- name: GET /airports
+  description: Call GET /airports
+  protocol: openapi
+  request:
+    method: GET
+    path: /airports
+    payload: payloads/015_get-airports.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List airports
+- name: GET /airlines
+  description: Call GET /airlines
+  protocol: openapi
+  request:
+    method: GET
+    path: /airlines
+    payload: payloads/016_get-airlines.json
+  assertions:
+  - status == 200
+  - response_time_ms < 2000
+  notes: List airlines

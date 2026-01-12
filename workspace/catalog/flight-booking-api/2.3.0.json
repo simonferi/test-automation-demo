@@ -1,0 +1,109 @@
+{
+  "service": "Flight Booking API",
+  "version": "2.3.0",
+  "protocol": "openapi",
+  "source_path": "specs\\flights.yaml",
+  "generated_at": "2026-01-12T12:29:51.028400Z",
+  "metadata": {
+    "raw_version": "3.0.3",
+    "policy": {}
+  },
+  "operations": [
+    {
+      "name": "GET /flights/search",
+      "method": "GET",
+      "path": "/flights/search",
+      "description": "Search available flights"
+    },
+    {
+      "name": "POST /flights/offers",
+      "method": "POST",
+      "path": "/flights/offers",
+      "description": "Create priced offer"
+    },
+    {
+      "name": "POST /reservations",
+      "method": "POST",
+      "path": "/reservations",
+      "description": "Create reservation"
+    },
+    {
+      "name": "GET /reservations/{reservationId}",
+      "method": "GET",
+      "path": "/reservations/{reservationId}",
+      "description": "Get reservation"
+    },
+    {
+      "name": "PUT /reservations/{reservationId}",
+      "method": "PUT",
+      "path": "/reservations/{reservationId}",
+      "description": "Replace reservation data"
+    },
+    {
+      "name": "PATCH /reservations/{reservationId}",
+      "method": "PATCH",
+      "path": "/reservations/{reservationId}",
+      "description": "Patch reservation metadata"
+    },
+    {
+      "name": "DELETE /reservations/{reservationId}",
+      "method": "DELETE",
+      "path": "/reservations/{reservationId}",
+      "description": "Cancel reservation"
+    },
+    {
+      "name": "GET /reservations/{reservationId}/passengers",
+      "method": "GET",
+      "path": "/reservations/{reservationId}/passengers",
+      "description": "List passengers in reservation"
+    },
+    {
+      "name": "POST /reservations/{reservationId}/passengers",
+      "method": "POST",
+      "path": "/reservations/{reservationId}/passengers",
+      "description": "Add passenger to reservation"
+    },
+    {
+      "name": "PATCH /reservations/{reservationId}/passengers/{passengerId}",
+      "method": "PATCH",
+      "path": "/reservations/{reservationId}/passengers/{passengerId}",
+      "description": "Update passenger details"
+    },
+    {
+      "name": "DELETE /reservations/{reservationId}/passengers/{passengerId}",
+      "method": "DELETE",
+      "path": "/reservations/{reservationId}/passengers/{passengerId}",
+      "description": "Remove passenger"
+    },
+    {
+      "name": "GET /reservations/{reservationId}/tickets",
+      "method": "GET",
+      "path": "/reservations/{reservationId}/tickets",
+      "description": "List issued tickets"
+    },
+    {
+      "name": "POST /reservations/{reservationId}/tickets",
+      "method": "POST",
+      "path": "/reservations/{reservationId}/tickets",
+      "description": "Issue tickets"
+    },
+    {
+      "name": "PATCH /checkin/{reservationId}",
+      "method": "PATCH",
+      "path": "/checkin/{reservationId}",
+      "description": "Complete online check-in"
+    },
+    {
+      "name": "GET /airports",
+      "method": "GET",
+      "path": "/airports",
+      "description": "List airports"
+    },
+    {
+      "name": "GET /airlines",
+      "method": "GET",
+      "path": "/airlines",
+      "description": "List airlines"
+    }
+  ]
+}

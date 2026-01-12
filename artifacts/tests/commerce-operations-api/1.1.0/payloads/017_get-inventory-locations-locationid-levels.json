@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "example": "GET /inventory/locations/{locationId}/levels payload"
+  }
+}

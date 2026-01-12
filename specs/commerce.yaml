@@ -1,0 +1,531 @@
+openapi: 3.0.3
+info:
+  title: Commerce Operations API
+  version: "1.1.0"
+  description: |
+    Reference API used to orchestrate core commerce flows including order capture,
+    shipments, inventory levels, and returns. Designed for mock/test workflows.
+servers:
+  - url: https://api.commerce.local/v1
+paths:
+  /orders:
+    get:
+      summary: List orders
+      description: Returns recent orders filtered by status, channel, or customer.
+      parameters:
+        - $ref: '#/components/parameters/OrderStatus'
+        - $ref: '#/components/parameters/CustomerId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Page of order summaries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderList'
+        '400':
+          description: Invalid filter combination.
+    post:
+      summary: Create order
+      description: Creates a new order in the OMS.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '422':
+          description: Validation failure.
+    options:
+      summary: Options for order collection
+      responses:
+        '204':
+          description: Successful preflight check.
+          headers:
+            Allow:
+              schema:
+                type: string
+    head:
+      summary: Order list metadata
+      responses:
+        '200':
+          description: Contains pagination headers.
+  /orders/{orderId}:
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+    get:
+      summary: Get order
+      responses:
+        '200':
+          description: Order details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found.
+    put:
+      summary: Replace order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200': { description: Order updated }
+        '409': { description: Conflict updating order }
+    patch:
+      summary: Patch order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderRequest'
+      responses:
+        '200': { description: Patch applied }
+        '400': { description: Invalid patch payload }
+    delete:
+      summary: Cancel order
+      responses:
+        '204': { description: Order canceled }
+        '409': { description: Shipment already started }
+  /orders/{orderId}/items:
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+    get:
+      summary: List order items
+      responses:
+        '200':
+          description: Order items payload.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderItem'
+    post:
+      summary: Append order item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+      responses:
+        '201': { description: Item added }
+  /orders/{orderId}/items/{itemId}:
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+      - $ref: '#/components/parameters/ItemId'
+    delete:
+      summary: Remove order item
+      responses:
+        '204': { description: Item deleted }
+  /shipments:
+    get:
+      summary: List shipments
+      parameters:
+        - $ref: '#/components/parameters/ShipmentStatus'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Shipment list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shipment'
+    post:
+      summary: Create shipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShipmentRequest'
+      responses:
+        '201': { description: Shipment created }
+  /shipments/{shipmentId}:
+    parameters:
+      - $ref: '#/components/parameters/ShipmentId'
+    get:
+      summary: Get shipment
+      responses:
+        '200':
+          description: Shipment details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+        '404': { description: Shipment missing }
+    patch:
+      summary: Patch shipment status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentRequest'
+      responses:
+        '200': { description: Shipment updated }
+  /inventory/locations:
+    get:
+      summary: List inventory locations
+      responses:
+        '200':
+          description: Location catalog.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+  /inventory/locations/{locationId}/levels:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+    get:
+      summary: List stock levels at location
+      responses:
+        '200':
+          description: Stock snapshot.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryLevel'
+    post:
+      summary: Bulk adjust levels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/InventoryAdjustment'
+      responses:
+        '202': { description: Adjustments queued }
+  /inventory/locations/{locationId}/levels/{sku}:
+    parameters:
+      - $ref: '#/components/parameters/LocationId'
+      - $ref: '#/components/parameters/Sku'
+    put:
+      summary: Upsert stock level
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryLevel'
+      responses:
+        '200': { description: Level saved }
+    delete:
+      summary: Delete stock level
+      responses:
+        '204': { description: Stock removed }
+  /returns:
+    get:
+      summary: List returns
+      responses:
+        '200':
+          description: Return list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Return'
+    post:
+      summary: Create return
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReturnRequest'
+      responses:
+        '201': { description: Return created }
+  /returns/{returnId}:
+    parameters:
+      - $ref: '#/components/parameters/ReturnId'
+    head:
+      summary: Inspect return existence
+      responses:
+        '200': { description: Return exists }
+        '404': { description: Return missing }
+    options:
+      summary: Allowed return operations
+      responses:
+        '204':
+          description: Allowed verbs in Allow header.
+          headers:
+            Allow:
+              schema:
+                type: string
+components:
+  parameters:
+    OrderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ItemId:
+      name: itemId
+      in: path
+      required: true
+      schema:
+        type: string
+    OrderStatus:
+      name: status
+      in: query
+      schema:
+        type: string
+        enum: [draft, submitted, fulfilled, canceled]
+    CustomerId:
+      name: customerId
+      in: query
+      schema:
+        type: string
+        format: uuid
+    ShipmentId:
+      name: shipmentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ShipmentStatus:
+      name: shipmentStatus
+      in: query
+      schema:
+        type: string
+        enum: [pending_pick, in_transit, delivered, delayed]
+    LocationId:
+      name: locationId
+      in: path
+      required: true
+      schema:
+        type: string
+    Sku:
+      name: sku
+      in: path
+      required: true
+      schema:
+        type: string
+    ReturnId:
+      name: returnId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        default: 50
+        maximum: 200
+  schemas:
+    Money:
+      type: object
+      required: [currency, amount]
+      properties:
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        amount:
+          type: number
+          format: decimal
+    OrderItem:
+      type: object
+      required: [sku, quantity]
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+        price:
+          $ref: '#/components/schemas/Money'
+    Order:
+      type: object
+      required: [id, status, createdAt, items]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        customerId:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        totals:
+          $ref: '#/components/schemas/Money'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    OrderList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        total:
+          type: integer
+    CreateOrderRequest:
+      type: object
+      required: [customerId, items]
+      properties:
+        customerId:
+          type: string
+          format: uuid
+        channel:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+    UpdateOrderRequest:
+      type: object
+      properties:
+        status:
+          type: string
+        metadata:
+          type: object
+    Shipment:
+      type: object
+      required: [id, status, carrier]
+      properties:
+        id:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        carrier:
+          type: string
+        trackingNumber:
+          type: string
+        estimatedDelivery:
+          type: string
+          format: date-time
+    CreateShipmentRequest:
+      type: object
+      required: [orderId, carrier]
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        carrier:
+          type: string
+        serviceLevel:
+          type: string
+    UpdateShipmentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+        trackingNumber:
+          type: string
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    InventoryLevel:
+      type: object
+      required: [sku, quantity]
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+        reserved:
+          type: integer
+        updatedAt:
+          type: string
+          format: date-time
+    InventoryAdjustment:
+      type: object
+      required: [sku, delta]
+      properties:
+        sku:
+          type: string
+        delta:
+          type: integer
+        reason:
+          type: string
+    Return:
+      type: object
+      required: [id, orderId, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CreateReturnRequest:
+      type: object
+      required: [orderId, reason]
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        reason:
+          type: string
