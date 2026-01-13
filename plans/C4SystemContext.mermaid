@@ -1,0 +1,34 @@
+---
+title: System Context of API Contract Testing
+---
+flowchart TD
+    OpenAPI["API Contract<br>(OpenAPI/Swagger Spec)"] --> Parser
+    Parser["Contract Parser"] --> Catalog[(workspace/catalog)]
+    Catalog --> MockBuilder["Mock Config Builder"]
+    Catalog --> ScenarioBuilder["Test Scenario Builder"]
+    MockBuilder --> MockArtifacts[(artifacts/mocks)]
+    ScenarioBuilder --> TestArtifacts[(artifacts/tests)]
+    MockArtifacts --> MockServer["Mock Server<br>API Endpoints"]
+    TestArtifacts --> TestExecutor["Test Executor"]
+    MockServer <--> TestExecutor
+    TestExecutor --> Runs[(runs/*)]
+    TestExecutor <--> RealAPI["Real Server<br>API Endpoints"]
+    CI["Manual Execution<br>or CI/CD Pipeline"] --> Parser
+    CI --> MockBuilder
+    CI --> ScenarioBuilder
+    CI --> MockServer
+    CI --> TestExecutor
+
+    style OpenAPI fill:#334477,stroke:#333
+    style CI fill:#334477,stroke:#333
+    style Catalog fill:#2a4a5a,stroke:#333
+    style MockArtifacts fill:#2a4a5a,stroke:#333
+    style TestArtifacts fill:#2a4a5a,stroke:#333
+    style Runs fill:#2a4a5a,stroke:#333
+    style Parser fill:#3355BB,stroke:#333
+    style TestExecutor fill:#3355BB,stroke:#333
+    style MockBuilder fill:#3355BB,stroke:#333
+    style MockServer fill:#3388DD,stroke:#333
+    style RealAPI fill:#3388DD,stroke:#333
+    style ScenarioBuilder fill:#3355BB,stroke:#333
+
